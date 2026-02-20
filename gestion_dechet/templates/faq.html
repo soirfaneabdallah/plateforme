@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Frequently Asked Questions</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item">Pages</li>
+            <li class="breadcrumb-item active">Frequently Asked Questions</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+  
+      <section class="section faq">
+        <div class="row">
+          <div class="col-lg-6">
+  
+            <div class="card basic">
+              <div class="card-body">
+                <h5 class="card-title">Basic Questions</h5>
+  
+                <div>
+                  <h6>1. Nisi ut ut exercitationem voluptatem esse sunt rerum?</h6>
+                  <p>Saepe perspiciatis ea. Incidunt blanditiis enim mollitia qui voluptates. Id rem nulla tenetur nihil in unde rerum. Quae consequatur placeat qui cumque earum eius omnis quos.</p>
+                </div>
+  
+                <div class="pt-2">
+                  <h6>2. Reiciendis dolores repudiandae?</h6>
+                  <p>Id ipsam non ut. Placeat doloremque deserunt quia tenetur inventore laboriosam dolores totam odio. Aperiam incidunt et. Totam ut quos sunt atque modi molestiae dolorem.</p>
+                </div>
+  
+                <div class="pt-2">
+                  <h6>3. Qui qui reprehenderit ut est illo numquam voluptatem?</h6>
+                  <p>Enim inventore in consequuntur ipsam voluptatem consequatur beatae. Nostrum consequuntur voluptates et blanditiis.</p>
+                </div>
+  
+              </div>
+            </div>
+                <div class="accordion accordion-flush" id="faq-group-1">
+                </div>
+          </div>
+  
+          <div class="col-lg-6">
+  
+           <!-- Documentation sur la création de cours -->
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Comment créer un cours bien structuré</h5>
+
+    <div class="accordion accordion-flush" id="documentation-group">
+      
+      <!-- Section: Introduction -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-target="#intro" type="button" data-bs-toggle="collapse">
+            Introduction
+          </button>
+        </h2>
+        <div id="intro" class="accordion-collapse collapse" data-bs-parent="#documentation-group">
+          <div class="accordion-body">
+            Créer un cours bien structuré améliore la lisibilité et l'expérience utilisateur. Cette documentation vous guide sur les balises à utiliser pour structurer votre contenu, ajouter du code, des formules mathématiques et des titres.
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Balises pour les titres -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-target="#titres" type="button" data-bs-toggle="collapse">
+            Ajouter des titres
+          </button>
+        </h2>
+        <div id="titres" class="accordion-collapse collapse" data-bs-parent="#documentation-group">
+          <div class="accordion-body">
+            Utilisez les balises suivantes pour structurer votre cours :
+            <ul>
+              <li><code>h1"""Titre principal"""</code> pour les titres principaux.</li>
+              <li><code>h2"""Sous-titre"""</code> pour les sous-titres.</li>
+              <li><code>h3"""Section"""</code> pour des sections détaillées.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Ajouter du code -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-target="#code" type="button" data-bs-toggle="collapse">
+            Ajouter des blocs de code
+          </button>
+        </h2>
+        <div id="code" class="accordion-collapse collapse" data-bs-parent="#documentation-group">
+          <div class="accordion-body">
+            Pour insérer du code avec coloration syntaxique :
+            <ul>
+              <li><code>python"""code en Python"""</code> pour le Python.</li>
+              <li><code>html"""code en HTML"""</code> pour le HTML.</li>
+              <li><code>javascript"""code en JavaScript"""</code> pour le JavaScript.</li>
+            </ul>
+            Exemple :
+            <pre><code class="language-python">python"""
+def addition(a, b):
+    return a + b
+"""</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Ajouter des formules mathématiques -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-target="#math" type="button" data-bs-toggle="collapse">
+            Ajouter des formules mathématiques
+          </button>
+        </h2>
+        <div id="math" class="accordion-collapse collapse" data-bs-parent="#documentation-group">
+          <div class="accordion-body">
+            Encadrez vos formules mathématiques avec <code>$$</code> :
+            <pre><code>$$ E = mc^2 $$</code></pre>
+            Cette balise rendra vos formules avec MathJax.
+          </div>
+        </div>
+      </div>
+        <!-- Couleurs -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-target="#colors" type="button" data-bs-toggle="collapse">
+            Ajouter des couleurs
+          </button>
+        </h2>
+        <div id="colors" class="accordion-collapse collapse" data-bs-parent="#documentation-group">
+          <div class="accordion-body">
+            <p>Utilisez la syntaxe suivante :</p>
+            <code>color"""[color] Mon texte"""</code>
+           <pre> Exemple :</pre> <code>color"""[red]Texte rouge"""</code>
+          </div>
+        </div>
+      </div>
+       <!-- Citations -->
+       <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-target="#quotes" type="button" data-bs-toggle="collapse">
+            Ajouter des citations
+          </button>
+        
+    
+</h2>
+        <div id="quotes" class="accordion-collapse collapse" data-bs-parent="#documentation-group">
+          <div class="accordion-body">
+            <p>Utilisez la balise :</p>
+            <pre><code>quote"""Ceci est une citation."""</code></pre>
+          </div>
+        
+        </div>
+
+      </div>
+      <!-- Section: Ajouter des sauts de ligne -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-target="#sauts-ligne" type="button" data-bs-toggle="collapse">
+            Ajouter des sauts de ligne
+          </button>
+        </h2>
+        <div id="sauts-ligne" class="accordion-collapse collapse" data-bs-parent="#documentation-group">
+          <div class="accordion-body">
+            Utilisez <code>\n</code> pour ajouter des sauts de ligne. Exemple :
+            <pre><code>Ce texte est sur une ligne.\nEt celui-ci sur une autre.</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Exemple complet -->
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" data-bs-target="#exemple" type="button" data-bs-toggle="collapse">
+            Exemple complet
+          </button>
+        </h2>
+        <div id="exemple" class="accordion-collapse collapse" data-bs-parent="#documentation-group">
+          <div class="accordion-body">
+            Exemple de cours structuré :
+            <pre><code>
+h1""" Les Bases de Python """
+h2""" Variables """
+python"""
+# Déclaration d'une variable
+nom = "Alice"
+"""
+h2""" Formules """
+$$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+            </code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+  
+            
+          </div>
+  
+        </div>
+      </section>
+
+</main><!-- End #main -->
+
+{% endblock %}
