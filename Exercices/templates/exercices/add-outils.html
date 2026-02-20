@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<main id="main" class="main">
+
+    <!-- Page Title -->
+    <div class="pagetitle">
+        <h1>Formations</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item">Formations</li>
+                <li class="breadcrumb-item">Modules</li>
+                <li class="breadcrumb-item">Cours</li>
+                <li class="breadcrumb-item active">Outils</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <!-- Messages -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+       <!-- Formulaire d'ajout -->
+       <div class="card shadow-sm mt-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Ajouter un nouvel outil</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if edit %}
+                      <button type="submit" class="btn btn-warning text-white">
+                          <i class="bi bi-save"></i> Mettre à jour
+                      </button>
+                      {% else %}
+                      <button type="submit" class="btn btn-success">Ajouter</button>
+                      </button>
+                      {% endif %}
+               
+                <a href="javascript:history.back()"  class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+    </section>
+
+</main>
+{% endblock %}

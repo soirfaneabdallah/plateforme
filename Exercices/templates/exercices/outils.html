@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block content %}
+<main id="main" class="main">
+<style>
+/* Global styles */
+.pagetitle {
+    margin-bottom: 2rem;
+}
+.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 0.5rem;
+    color: #495057;
+}
+
+/* Tool card styles */
+.tool-card {
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+.tool-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.tool-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #0d6efd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Badge styles */
+.badge {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.7rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .tool-icon {
+        font-size: 2.5rem;
+    }
+}
+</style>
+
+<!-- Page Title -->
+<div class="pagetitle">
+    <h1 class="text-primary">Formations & Outils</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item">Formations</li>
+            <li class="breadcrumb-item active">Outils</li>
+        </ol>
+    </nav>
+</div>
+<!-- End Page Title -->
+
+<section class="section dashboard">
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <!-- End Messages -->
+
+    <!-- Outils Section -->
+    <div class="tools-container">
+        <!-- Mes outils privés -->
+        <div class="tools-section mb-5">
+            <h2 class="section-title">Mes outils</h2>
+            <div class="row g-4">
+                {% for outil in outils_prives %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card tool-card shadow-sm">
+                        <div class="card-body position-relative">
+                            <div class="tool-icon">
+                               
+                                <!-- Dropdown Menu for Options -->
+                                <div class="dropdown tool-options-dropdown position-absolute top-0 end-0">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenu{{ outil.id }}" 
+                                            data-bs-toggle="dropdown" aria-expanded="false" title="Options">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="dropdownMenu{{ outil.id }}">
+                                        <li>
+                                            <a class="dropdown-item" href="{% url 'modifier_outil' outil.pk %}">
+                                                <i class="bi bi-pencil text-primary"></i> Modifier
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="{% url 'supprimer_outil' outil.pk %}" 
+                                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet outil ?')">
+                                                <i class="bi bi-trash"></i> Supprimer
+                                            </a>
+                                        </li>
+                                        {% if outil.est_public %}
+                                        <li>
+                                            <a class="dropdown-item text-warning" href="{% url 'retirer_public' outil.pk %}">
+                                                <i class="bi bi-lock-fill"></i> Retirer du public
+                                            </a>
+                                        </li>
+                                        {% else %}
+                                        <li>
+                                            <a class="dropdown-item text-success" href="{% url 'rendre_public' outil.pk %}">
+                                                <i class="bi bi-unlock-fill"></i> Rendre public
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <h5 class="card-title">{{ outil.nom }}</h5>
+                            <p class="card-text">{{ outil.formater }}</p>
+                            <span class="badge bg-primary">{{ outil.get_categorie_display }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">Vous n'avez aucun outil pour le moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Outils publics -->
+        <div class="tools-section">
+            <h2 class="section-title">Outils publics</h2>
+            <div class="row g-4">
+                {% for outil in outils_publics %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card tool-card shadow-sm">
+                        <div class="card-body">
+                            <div class="tool-icon text-success">
+                                <img style="height: 70px; width: 70px; border-radius: 50%; object-fit: cover;" 
+                                     src="{{ outil.utilisateur.photo.url }}" 
+                                     alt="{{ outil.utilisateur.nom }}">
+                            </div>
+                            <h5 class="card-title">{{ outil.nom }}</h5>
+                            <p class="card-text">{{ outil.formater }}</p>
+                            <span class="badge bg-success">{{ outil.get_categorie_display }}</span>
+                            <small class="text-muted d-block mt-2">
+                                Ajouté par : {{ outil.utilisateur.nom }} {{ outil.utilisateur.prenom }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">Aucun outil public disponible.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- End Outils Section -->
+</section>
+</main>
+{% endblock %}

@@ -1,0 +1,40 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Titre</th>
+            <th scope="col">Description</th>
+            <th scope="col">Niveau</th>
+            <th scope="col" class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in exercices %}
+        <tr>
+            <td>{{ item.exercice.titre }}</td>
+            <td>{{ item.exercice.description }}</td>
+               <!-- Niveau avec étoiles -->
+               <td>
+                {% for star in item.stars %}
+                    <i class="bi bi-star{% if star == 'fill' %}-fill{% endif %}" style="{% if star == 'fill' %}color: gold;{% endif %}"></i>
+                {% endfor %}
+            </td>
+
+            <td class="text-center">
+                <!-- Actions avec icônes -->
+                <a href="{% url 'detail-exercice' item.exercice.pk %}" class="btn btn-sm btn-warning me-2" title="Voir les détails">
+                    <i class="ri-logout-box-r-line"></i>
+                </a>
+                {% if item.valide %}
+                <span class="btn btn-sm btn-success" title="Validé">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                </span>
+                {% else %}
+                <span class="btn btn-sm btn-danger" title="Non Validé">
+                    <i class="bi bi-hand-thumbs-down"></i>
+                </span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
