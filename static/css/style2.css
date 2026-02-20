@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+   
+}
+
+.main {
+    height: 100%;
+}
+
+.chat-container {
+    padding: 15px;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.chat-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background-color: #37434F;
+    border-radius: 5px;
+}
+
+.chat {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: flex-end;
+}
+
+
+/* Survol de la carte du message */
+
+
+/* Icône des trois points */
+.chat .options-menu {
+    display: none; /* Masquer par défaut */
+}
+
+/* Afficher l'icône des trois points au survol du message */
+.chat:hover .options-menu {
+    display: block;
+    color: #ffffff;
+}
+
+/* Icône des trois points */
+.options-menu button {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.chat.outgoing {
+    justify-content: flex-end;
+}
+
+.chat.incoming {
+    justify-content: flex-start;
+}
+
+.chat-content {
+    max-width: 70%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.chat-text {
+    background-color: #202C33;
+    color: #E9EDEF;
+    padding: 10px 15px;
+    border-radius: 8px;
+    word-wrap: break-word;
+    position: relative;
+}
+
+.chat.outgoing .chat-text {
+    background-color: #005C4B;
+    color: #FFFFFF;
+}
+
+.chat-time {
+    font-size: 12px;
+    color: #99AAB5;
+    text-align: right;
+    margin-top: 5px;
+}
+
+.chat-details img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.card-body,
+.chat-list-container {
+    height: calc(100% - 100px); /* Ajuste la hauteur selon la taille de l'en-tête */
+    overflow-y: auto;
+}
+
+.card-footer {
+    background-color: #111B21;
+    padding: 10px;
+    border-top: 1px solid #37434F;
+}
+
+.card-footer form input[type="text"] {
+    background-color: #202C33;
+    color: #E9EDEF;
+    border: none;
+}
+
+.card-footer form input[type="text"]:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.card-footer form .btn {
+    background-color: #005C4B;
+    border: none;
+}
+

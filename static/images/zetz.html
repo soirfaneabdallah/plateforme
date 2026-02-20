@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+    <!-- Fond avec dégradé -->
+    <defs>
+      <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#1da1f2;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#0069c0;stop-opacity:1" />
+      </linearGradient>
+      <radialGradient id="circleGradient" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8" />
+        <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.2" />
+      </radialGradient>
+    </defs>
+  
+    <rect width="200" height="200" fill="url(#backgroundGradient)" rx="20" />
+  
+    <!-- Neurones -->
+    <circle cx="50" cy="50" r="8" fill="url(#circleGradient)">
+      <animate attributeName="r" values="8;10;8" dur="1.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="100" cy="50" r="8" fill="url(#circleGradient)">
+      <animate attributeName="r" values="8;12;8" dur="1s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="150" cy="50" r="8" fill="url(#circleGradient)">
+      <animate attributeName="r" values="8;10;8" dur="1.2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="75" cy="100" r="8" fill="url(#circleGradient)">
+      <animate attributeName="r" values="8;11;8" dur="1.4s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="125" cy="100" r="8" fill="url(#circleGradient)">
+      <animate attributeName="r" values="8;11;8" dur="1.6s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="50" cy="150" r="8" fill="url(#circleGradient)">
+      <animate attributeName="r" values="8;12;8" dur="1.3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="100" cy="150" r="8" fill="url(#circleGradient)">
+      <animate attributeName="r" values="8;10;8" dur="1s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="150" cy="150" r="8" fill="url(#circleGradient)">
+      <animate attributeName="r" values="8;12;8" dur="1.5s" repeatCount="indefinite" />
+    </circle>
+  
+    <!-- Connexions -->
+    <line x1="50" y1="50" x2="75" y2="100" stroke="white" stroke-width="2">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" />
+    </line>
+    <line x1="100" y1="50" x2="75" y2="100" stroke="white" stroke-width="2">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite" />
+    </line>
+    <line x1="100" y1="50" x2="125" y2="100" stroke="white" stroke-width="2">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.4s" repeatCount="indefinite" />
+    </line>
+    <line x1="150" y1="50" x2="125" y2="100" stroke="white" stroke-width="2">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite" />
+    </line>
+    <line x1="75" y1="100" x2="50" y2="150" stroke="white" stroke-width="2">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.3s" repeatCount="indefinite" />
+    </line>
+    <line x1="75" y1="100" x2="100" y2="150" stroke="white" stroke-width="2">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite" />
+    </line>
+    <line x1="125" y1="100" x2="100" y2="150" stroke="white" stroke-width="2">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" />
+    </line>
+    <line x1="125" y1="100" x2="150" y2="150" stroke="white" stroke-width="2">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.7s" repeatCount="indefinite" />
+    </line>
+  
+    <!-- Zêta en haut -->
+    <text x="95" y="120" fill="white" font-size="60" font-family="'Poppins', sans-serif" text-anchor="middle">
+      ζ
+      <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" />
+    </text>
+  
+    <!-- Texte principal -->
+    <text x="100" y="185" fill="white" font-size="18" font-family="'Poppins', sans-serif" text-anchor="middle">
+      Zêta
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite" />
+    </text>
+  </svg>
+  

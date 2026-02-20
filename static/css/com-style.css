@@ -1,0 +1,127 @@
+.commentaire {
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+.commentaire img {
+  width: 40px;
+  height: 40px;
+}
+.commentaire p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.reponse {
+  margin-left: 50px;
+  border-left: 2px solid #f1f1f1;
+  padding-left: 15px;
+}
+
+/* Thème personnalisé Prism.js */
+
+/* Style général de la zone de code */
+code[class*="language-"],
+pre[class*="language-"] {
+    color: #e0e0e0; /* Couleur par défaut du texte */
+    font-family: 'Fira Code', monospace;
+    font-size: 1rem;
+    line-height: 1.5;
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    tab-size: 4;
+    hyphens: none;
+    border-radius: 5px;
+    overflow: auto;
+}
+
+/* Style pour les blocs <pre> */
+pre[class*="language-"] {
+    margin: 1em 0;
+    padding: 1em;
+    overflow: auto;
+    background: #afabab; /* Fond sombre */
+}
+
+/* Couleur des mots-clés (keywords) */
+.token.keyword {
+    color: #ff79c6; /* Rose vif */
+    font-weight: bold;
+}
+
+/* Couleur des chaînes de caractères */
+.token.string {
+    color: #f1fa8c; /* Jaune vif */
+}
+
+/* Couleur des fonctions */
+.token.function {
+    color: #8be9fd; /* Bleu clair */
+    font-style: italic;
+}
+
+/* Couleur des opérateurs */
+.token.operator {
+    color: #ff5555; /* Rouge vif */
+}
+
+/* Couleur des commentaires */
+.token.comment {
+    color: #6272a4; /* Gris bleuté */
+    font-style: italic;
+}
+
+/* Couleur des nombres */
+.token.number {
+    color: #bd93f9; /* Violet clair */
+}
+
+/* Couleur des variables */
+.token.variable {
+    color: #50fa7b; /* Vert vif */
+}
+
+/* Couleur des classes */
+.token.class-name {
+    color: #ffb86c; /* Orange clair */
+    font-weight: bold;
+}
+
+/* Couleur des balises HTML */
+.token.tag {
+    color: #ff79c6; /* Rose vif */
+}
+
+/* Couleur des attributs HTML */
+.token.attr-name {
+    color: #f8f8f2; /* Blanc */
+    font-style: italic;
+}
+
+/* Style pour le fond des blocs sélectionnés */
+pre[class*="language-"]::selection,
+code[class*="language-"]::selection {
+    background: #44475a; /* Fond bleu sombre */
+    color: #ffffff; /* Texte blanc */
+}
+
+/* Style pour les lignes mises en évidence */
+pre[data-line] {
+    position: relative;
+    padding: 1em 0 1em 3em;
+}
+
+pre[data-line] .line-highlight {
+    position: absolute;
+    left: 0;
+    right: 0;
+    
+    pointer-events: none;
+    line-height: inherit;
+    white-space: pre;
+}
+
