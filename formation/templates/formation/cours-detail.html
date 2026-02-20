@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<script>
+  function confirmerSuppression(event) {
+      event.preventDefault(); // Empêche l'envoi immédiat du formulaire
+      const confirmation = confirm("Cette opération est irréversible. Voulez-vous vraiment supprimer ce cours ?");
+      if (confirmation) {
+        window.location.href = event;
+      }
+  }
+</script>
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Formations</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "index" %}">Home</a></li>
+        <li class="breadcrumb-item ">Formations</li>
+        <li class="breadcrumb-item ">Modules</li>
+        <li class="breadcrumb-item active">Cours</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  {% if messages %}
+       {% for message in messages %}
+           <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+               {{ message }}
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+           </div>
+       {% endfor %}
+   {% endif %}
+  <div class="mb-3">
+  
+    <div class="card-body pb-3">
+      <div class="card" id="content" hx-get="/some/url/" hx-trigger="load" hx-target="#content" hx-swap="innerHTML">
+        <div class="card-body pb-2">
+          <h1 class="card-title " style="font-size:20px; font-weight:bold;"> Cours  {{ cours.ordre|safe }} : {{ cours.titre|safe }} | {{cours.module.formation.niveau|safe }}</h1>
+          <div class="news">
+            
+              {{ contenu_formater|safe }}
+
+            </div>
+          </div><!-- End sidebar recent posts-->
+          {% if user == cours.module.formation.enseignant%}
+         
+          <div class="pt-3" style="margin-left:auto;" id="content" hx-get="/some/url/" hx-trigger="load" hx-target="#content" hx-swap="innerHTML">
+            <form id="delete-form" method="POST" action="">
+            <a href="{% url 'coursedit'  cours.pk%}" class="btn btn-warning btn-sm" title="Remove my profile image"> <i class="bi bi-pencil-square"></i></a>
+              {% csrf_token %}
+               <a href={% url 'supprimer_cours' cours.pk %}  class="btn btn-danger btn-sm"  href=""  title="supprimer le cours"><i class="bi bi-trash"></i></a>
+          </form>
+          </div>
+          {% endif %}
+        </div>
+       
+        <div>
+          <h4>Références</h4>
+          <ul >
+              {% for reference in cours.references.all %}
+              <li><a href="{{ reference.lien }}" target="_blank">
+                  <strong>{{ reference.titre }}</strong> 
+                  </a>
+            {% if user == cours.module.formation.enseignant%}
+                  
+          <div class="pt-3" style="margin-left:auto;" id="content" hx-get="/some/url/" hx-trigger="load" hx-target="#content" hx-swap="innerHTML">
+            <form id="delete-form" method="POST" action="">
+            <a href="{% url 'refedit'  reference.pk%}" class="btn btn-warning btn-sm" title="Remove my profile image"> <i class="bi bi-pencil-square"></i></a>
+              {% csrf_token %}
+               <a href={% url 'supprimer_cours' cours.pk %}  class="btn btn-danger btn-sm"  href=""  title="supprimer le cours"><i class="bi bi-trash"></i></a>
+          </form>
+          </div>
+          {% endif %}
+              </li>
+              {% empty %}
+              <p>Aucune référence disponible pour ce cours.</p>
+              {% endfor %}
+          </ul>
+          
+        </div>
+        
+      
+      
+      <div class="container mt-5">
+        <h2>Commentaires</h2>
+
+        <!-- Formulaire pour ajouter un commentaire -->
+        <form method="post" class="mb-4">
+          {% csrf_token %}
+          <div class="mb-3">
+            {{ form_commentaire }}
+          </div>
+          <button name ="comment_submit" type="submit" class="btn btn-primary">Publier</button>
+        </form>
+
+        <!-- Liste des commentaires -->
+        <ul class="list-unstyled">
+          {% for commentaire in commentaires %}
+          <li class="mb-3">
+            <div class="d-flex">
+              {% if commentaire.utilisateur.photo.url  %}
+              <img style="max-width:50px; max-height:50px;" src="{{ commentaire.utilisateur.photo.url }}" alt="Avatar" class="rounded-circle me-2">
+              {% else %}
+              <img style="max-width:50px; max-height:50px;" src="{% static "/images/logo.svg" %}" alt="Avatar" class="rounded-circle me-2">
+              {% endif %}
+              <div>
+                <div class="commentaire">
+                  <!-- Nom de l'utilisateur -->
+                  <a href="#">
+                    <strong>{{ commentaire.utilisateur.nom }}</strong>
+                  </a>
+                
+                  <!-- Date de création -->
+                  <small class="text-muted d-block">
+                    {{ commentaire.date_creation|date:"d M Y, H:i" }}
+                  </small>
+                
+                  <!-- Contenu du commentaire -->
+                  <p>{{ commentaire.contenu }}</p>
+                
+                  <!-- Bouton pour afficher le formulaire de réponse -->
+                  <button style="text-decoration:none" class="btn btn-sm btn-link text-primary"
+                          data-bs-toggle="collapse" data-bs-target="#form-reponse-{{ commentaire.pk }}">
+                    <strong>Répondre</strong>
+                  </button>
+                
+                  <!-- Bouton pour afficher les réponses -->
+                  <button style="text-decoration:none" class="btn btn-sm btn-link text-primary"
+                          data-bs-toggle="collapse" data-bs-target="#reponses-{{ commentaire.pk }}">
+                    <strong>{{ commentaire.reponses.count }} Réponse{{ commentaire.reponses.count|pluralize }}</strong>
+                  </button>
+                
+                  <!-- Formulaire de réponse -->
+                  <div class="collapse mt-2" id="form-reponse-{{ commentaire.pk }}">
+                    <form method="post" class="mb-3">
+                      {% csrf_token %}
+                      {{ form_commentaire.as_p }}
+                      <input type="hidden" name="parent_id" value="{{ commentaire.pk }}">
+                      <div class="mt-2">
+                        <button type="submit" name="comment_submit" class="btn btn-primary btn-sm">Publier la réponse</button>
+                        <button type="button" onclick="this.form.reset();" class="btn btn-secondary btn-sm">Annuler</button>
+                      </div>
+                    </form>
+                  </div>
+                
+                  <!-- Liste des réponses -->
+                  <div class="collapse mt-3" id="reponses-{{ commentaire.pk }}">
+                    <ul class="list-unstyled">
+                      {% for reponse in commentaire.reponses.all %}
+                      <li>
+                        <div class="d-flex">
+                          <!-- Avatar de l'utilisateur -->
+                          {% if reponse.utilisateur.photo %}
+                          <img style="max-width:50px; max-height:50px;" src="{{ reponse.utilisateur.photo.url }}" alt="Avatar" class="rounded-circle me-2">
+                          {% else %}
+                          <img style="max-width:50px; max-height:50px;" src="{% static '/images/default-avatar.png' %}" alt="Avatar" class="rounded-circle me-2">
+                          {% endif %}
+                          <div>
+                            <strong>{{ reponse.utilisateur.nom }}</strong>
+                            <small class="text-muted d-block">{{ reponse.date_creation|date:"d M Y, H:i" }}</small>
+                            <p class="mb-1">{{ reponse.contenu }}</p>
+                          </div>
+                        </div>
+                      </li>
+                      {% empty %}
+                      <li>Aucune réponse pour l'instant.</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+                
+               
+
+                
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+</main><!-- End #main -->
+<script>
+  function copierCode(button) {
+      const codeElement = button.nextElementSibling.querySelector('code');
+      navigator.clipboard.writeText(codeElement.textContent).then(() => {
+          button.innerHTML = '<i class="bi bi-check-circle text-success"></i>';
+          setTimeout(() => {
+              button.innerHTML = '<i class="bi bi-clipboard"></i>';
+          }, 2000);
+      }).catch(err => {
+          console.error('Erreur lors de la copie:', err);
+      });
+  }
+  </script>
+  
+<script>
+  document.querySelectorAll(".code-display").forEach(function(element) {
+      CodeMirror.fromTextArea(element, {
+          mode: "python",
+          theme: "material-darker",
+          lineNumbers: true,
+          autoCloseBrackets: true,
+          tabSize: 4,
+      });
+  });
+</script>
+<script>
+  window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+  };
+</script>
+{% endblock %}

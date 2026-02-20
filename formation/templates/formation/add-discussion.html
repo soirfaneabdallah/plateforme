@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Discussions</h1>
+    </div>
+
+    <section class="section dashboard">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Créer une Discussion</h5>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h5>Discussions disponibles</h5>
+            {% for discussion in discussions %}
+            <div class="card shadow-sm mb-2">
+                <div class="card-body">
+                    <h5><a href="{% url 'detail_discussion' discussion.pk %}" class="text-decoration-none">{{ discussion.titre }}</a></h5>
+                    <p>{{ discussion.description }}</p>
+                    <small>Créé par {{ discussion.createur.username }} le {{ discussion.date_creation|date:"d M Y, H:i" }}</small>
+                </div>
+            </div>
+            {% empty %}
+            <p>Aucune discussion pour le moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

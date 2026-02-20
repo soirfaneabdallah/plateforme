@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main id="main" class="main">
+
+    <!-- Page Title -->
+    <div class="pagetitle">
+        <h1>Gestion des Cours</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url "index" %}">Accueil</a></li>
+                <li class="breadcrumb-item">Formations</li>
+                <li class="breadcrumb-item">Modules</li>
+                <li class="breadcrumb-item active">Cours</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <!-- Main Content -->
+    <section class="section dashboard">
+        <div class="container mt-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-primary text-center">
+                        {% if edit %}
+                            Modifier une Référence
+                        {% else %}
+                            Ajouter une Nouvelle Référence
+                        {% endif %}
+                    </h2>
+                    <p class="text-muted text-center">
+                        Renseignez les informations nécessaires pour ajouter ou modifier une référence à ce cours.
+                    </p>
+
+                    <!-- Formulaire -->
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="javascript:history.back()" class="btn btn-secondary">
+                                Retour
+                            </a>
+                            {% if edit %}
+                            <button type="submit" class="btn btn-warning">Mettre à jour</button>
+                            {% else %}
+                            <button type="submit" class="btn btn-primary">Ajouter</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Main Content -->
+
+</main>
+{% endblock %}

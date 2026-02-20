@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %} 
+
+{% block content %}
+<main id="main" class="main">
+
+    <!-- Titre de la Page -->
+    <div class="pagetitle">
+        <h1>Modules</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url "index" %}">Accueil</a></li>
+                <li class="breadcrumb-item">Formations</li>
+                <li class="breadcrumb-item active">Modules</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- Fin Titre de la Page -->
+
+    <section class="section dashboard">
+
+        <!-- Messages d'Alerte -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <!-- Fin Messages d'Alerte -->
+
+        <div class="row g-4 mt-3">
+            <!-- Affichage des Modules -->
+            {% for module in modules %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ module.image_couverture.url }}" class="card-img-top" alt="{{ module.titre }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary fw-bold">
+                            <a href="{% url 'cours' module.pk %}" class="text-decoration-none text-dark">{{ module.titre }}</a>
+                        </h5>
+                        <p class="card-text text-muted">{{ module.description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-light">
+                        <a href="{% url 'cours' module.pk %}" class="btn btn-outline-primary btn-sm">Voir les cours</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    Aucun module disponible pour cette formation pour l'instant.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</main>
+{% endblock %}

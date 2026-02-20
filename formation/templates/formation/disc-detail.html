@@ -1,0 +1,233 @@
+{% extends "base_disc.html" %}
+{% load static %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <!-- Liste des discussions -->
+            <div class="col-md-4 col-lg-3 h-100">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Discussions</h5>
+                    </div>
+                    <ul class="list-group list-group-flush chat-list-container">
+                        {% for discussion in discussions %}
+                            <li class="list-group-item">
+                                <a href="{% url 'disc-detail' discussion.id %}" class="d-flex align-items-center text-decoration-none">
+                                    <div class="flex-grow-1">
+                                        <strong>{{ discussion.titre }}</strong>
+                                    </div>
+                                    <span class="badge bg-primary ms-auto">{{ discussion.messages.count }}</span>
+                                </a>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item text-center">Aucune discussion disponible.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Messages de la discussion sélectionnée -->
+            <div class="col-md-8 col-lg-9 h-100 d-flex flex-column">
+                {% if discussion %}
+                    <div class="card shadow-sm h-100 d-flex flex-column">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">{{ discussion.titre }}</h5>
+                        </div>
+                        <div class="card-body chat-container flex-grow-1 overflow-auto">
+                            {% for message in messages %}
+                            <div class="chat {% if message.auteur == request.user %}outgoing{% else %}incoming{% endif %}" style="position: relative;">
+                                <div class="chat-content">
+                                    {% if message.auteur != request.user %}
+                                        <div class="chat-details">
+                                            <img src="{{ message.auteur.photo.url|default_if_none:'https://via.placeholder.com/50' }}" 
+                                                 alt="Avatar" class="avatar">
+                                        </div>
+                                    {% endif %}
+                            
+                                    <div class="chat-details">
+                                        <!-- Contenu du message -->
+                                        <p class="chat-text">
+                                            {{ message.contenu }}
+                                            {% if message.fichier %}
+                                                {% if message.fichier.name|lower|slice:"-4:" in ".jpg .png .gif" or message.fichier.name|lower|slice:"-5:" == ".jpeg" %}
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" data-image-url="{{ message.fichier.url }}">
+                                                    <img src="{{ message.fichier.url }}" alt="Image" class="message-image" style="max-width: 150px; cursor: pointer;">
+                                                </a>
+                                                {% else %}
+                                                    <a href="{{ message.fichier.url }}" target="_blank" class="file-link">
+                                                        📎 {{ message.fichier.name }}
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </p>
+                                        <small class="chat-time">{{ message.date_creation|date:"H:i" }}</small>
+                                    </div>
+                            
+                                    <!-- Menu d'options (trois points en bas) -->
+                                    <div class="dropdown options-menu mt-2">
+                                        <button class="btn p-0 border-0 bg-transparent" type="button" id="optionsDropdown{{ message.id }}" 
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-three-dots" style="font-size: 20px; color: gray;"></i> <!-- Icône trois points -->
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="optionsDropdown{{ message.id }}">
+                                            <li><a class="dropdown-item" href="#" onclick="replyToMessage('{{ message.id }}')">Répondre</a></li>
+                                            {% if message.auteur == request.user %}
+                                            <li><a class="dropdown-item" href="#" onclick="editMessage('{{ message.id }}')">Modifier</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#" onclick="deleteMessage('{{ message.id }}')">Supprimer</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                                              
+</div>
+
+                        <!-- Formulaire pour envoyer un message -->
+                        <form method="post" enctype="multipart/form-data" 
+                              class="d-flex align-items-center border rounded p-2 shadow-sm">
+                            {% csrf_token %}
+                            <!-- Aperçu du message auquel on répond -->
+                            <div id="reply-preview" class="d-none mb-2">
+                                <small class="text-muted">Réponse à : <span id="reply-content"></span></small>
+                                <button type="button" id="cancel-reply" class="btn-close"></button>
+                            </div>
+
+                            <div class="me-2">
+                                <label for="file-upload" class="btn btn-light border shadow-sm">
+                                    <i class="bi bi-plus-lg"></i>
+                                </label>
+                                <input type="file" id="file-upload" name="fichier" class="d-none">
+                            </div>
+
+                            <input 
+                                type="text" 
+                                name="contenu" 
+                                class="form-control flex-grow-1 me-2" 
+                                placeholder="Entrer votre message..." 
+                                aria-label="Entrer votre message"
+                            >
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-send-fill"></i>
+                            </button>
+                        </form>
+                    </div>
+                {% else %}
+                    <p class="default-text text-center text-muted">Veuillez sélectionner une discussion.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal pour afficher l'image -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="" id="modalImage" class="img-fluid" alt="Image en grand">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            // Sélectionner toutes les images cliquables
+            const imageLinks = document.querySelectorAll('[data-bs-target="#imageModal"]');
+            
+            imageLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    const imageUrl = link.getAttribute('data-image-url');
+                    const modalImage = document.getElementById('modalImage');
+                    modalImage.setAttribute('src', imageUrl);
+                });
+            });
+        });
+    
+    
+
+    // Gestion du bouton Répondre
+    const replyButtons = document.querySelectorAll('.reply-btn');
+    const replyPreview = document.getElementById('reply-preview');
+    const replyContent = document.getElementById('reply-content');
+    const cancelReply = document.getElementById('cancel-reply');
+
+    replyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            replyContent.textContent = button.getAttribute('data-message-content');
+            replyPreview.classList.remove('d-none');
+        });
+    });
+
+    cancelReply.addEventListener('click', () => {
+        replyPreview.classList.add('d-none');
+        replyContent.textContent = '';
+    });
+
+
+     // Répondre à un message
+     function replyToMessage(messageId) {
+        const inputField = document.querySelector('input[name="contenu"]');
+        const replyPreview = document.getElementById('reply-preview');
+        const replyContent = document.getElementById('reply-content');
+        
+        // Ajoutez le contenu du message dans l'aperçu de la réponse
+        const messageText = document.querySelector(`#optionsDropdown${messageId}`).closest('.chat').querySelector('.chat-text').textContent;
+        replyContent.textContent = messageText;
+        replyPreview.classList.remove('d-none');
+        
+        // Pré-remplissez le champ d'entrée
+        inputField.value = `@Répondre à : ${messageText}`;
+        inputField.focus();
+    }
+
+    // Annuler une réponse
+    document.getElementById('cancel-reply').addEventListener('click', () => {
+        const replyPreview = document.getElementById('reply-preview');
+        const replyContent = document.getElementById('reply-content');
+        replyPreview.classList.add('d-none');
+        replyContent.textContent = '';
+        document.querySelector('input[name="contenu"]').value = '';
+    });
+
+    // Modifier un message
+    function editMessage(messageId) {
+        const messageText = document.querySelector(`#optionsDropdown${messageId}`).closest('.chat').querySelector('.chat-text').textContent;
+        const inputField = document.querySelector('input[name="contenu"]');
+        
+        // Pré-remplir le champ d'entrée avec le message
+        inputField.value = messageText;
+        inputField.focus();
+    }
+
+    // Supprimer un message
+    function deleteMessage(messageId) {
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce message ?")) {
+            fetch(`/delete-message/${messageId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert("Erreur lors de la suppression du message.");
+                }
+            });
+        }
+    }
+</script>
+{% endblock %}

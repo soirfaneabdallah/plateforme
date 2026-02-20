@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<main id="main" class="main">
+
+    <!-- Page Title -->
+    <div class="pagetitle">
+        <h1>Formations</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url "index" %}">Home</a></li>
+                <li class="breadcrumb-item">Formations</li>
+                <li class="breadcrumb-item">Modules</li>
+                <li class="breadcrumb-item active">Cours</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if edite %}
+        <div class="container mt-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary fw-bold">Menu Principal pour Édition</h5>
+                    <p class="text-muted mb-4">Utilisez les options ci-dessous pour ajouter ou modifier des références et exercices associés à ce cours.</p>
+                    <div class="d-flex gap-3">
+                        <a href="{% url 'add-ref' cours.pk %}" class="btn btn-outline-primary">Gérer les Références</a>
+                        <a href="{% url 'ajout-exercice' %}" class="btn btn-outline-primary">Gérer les Exercices</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Form Section -->
+        <div class="container mt-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3>{{ titre }}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if edite %}
+                            {{ formetid.as_p }}
+                        {% else %}
+                            {{ form.as_p }}
+                        {% endif %}
+                        <div class="mt-4">
+                            {% if edite %}
+                                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                            {% endif %}
+                            <a href="javascript:history.back()" class="btn btn-secondary ms-3">Retour</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+<!-- End #main -->
+{% endblock %}

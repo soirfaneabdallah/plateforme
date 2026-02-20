@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<main id="main" class="main">
+
+    <!-- Page Title -->
+    <div class="pagetitle">
+        <h1>Formations</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url "index" %}">Accueil</a></li>
+                <li class="breadcrumb-item active">Formations</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Form Card -->
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">
+                            {% if edit %}
+                                Mettre à jour la Formation
+                            {% else %}
+                                Créer une Nouvelle Formation
+                            {% endif %}
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            
+                            <!-- Formulaire -->
+                            {{ form.as_p }}
+                            
+                            <!-- Boutons -->
+                            <div class="text-end mt-3">
+                                {% if edit %}
+                                    <button type="submit" class="btn btn-warning">
+                                        <i class="bi bi-pencil-square"></i> Mettre à jour
+                                    </button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-plus-circle"></i> Créer la Formation
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- End Form Card -->
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}

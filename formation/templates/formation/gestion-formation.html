@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main id="main" class="main">
+
+    <!-- Page Title -->
+    <div class="pagetitle">
+        <h1>Gestion des Formations et Modules</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Accueil</a></li>
+                <li class="breadcrumb-item active">Gestion des Formations</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <!-- Messages -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <!-- Gestion des Formations -->
+        <div class="col">
+            <div class="col-lg-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Mes Formations</h5>
+                        <a href="{% url 'add-formation' %}" class="btn btn-light btn-sm">Ajouter une Formation</a>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for formation in formations %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ formation.titre }}</strong> <br>
+                                    <small class="text-muted">{{ formation.description }}</small>
+                                </div>
+                                <div>
+                                    <a href="{% url 'fomedit' formation.pk %}" class="btn btn-warning btn-sm me-0"><i class="bi bi-pencil"></i></a>
+                                    <a href="" class="btn btn-danger btn-sm me-0"><i class="bi bi-trash"></i></a>
+                                    <a href="{% url 'add-module' formation.pk %}" class="btn btn-info btn-sm me-0">  <i class="ri-add-line"></i></a>
+                                </div>
+                            </li>
+                            {% empty %}
+                            <p class="text-muted">Aucune formation trouvée.</p>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestion des Modules -->
+            <div class="col-lg-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Mes Modules</h5>
+                        
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for module in modules %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ module.titre }}</strong> <br>
+                                    <small class="text-muted">{{ module.description }}</small>
+                                </div>
+                                <div>
+                                    <a href="" class="btn btn-warning btn-sm me-0"><i class="bi bi-pencil"></i></a>
+                                    <a href="" class="btn btn-danger btn-sm me-0"><i class="bi bi-trash"></i></a>
+                                    <a href="{% url 'add-cours' module.pk %}" class="btn btn-info btn-sm me-0">  <i class="ri-add-line"></i></a>
+                                </div>
+                            </li>
+                            {% empty %}
+                            <p class="text-muted">Aucun module trouvé.</p>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+{% endblock %}

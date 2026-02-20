@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<main id="main" class="main">
+
+    <!-- Titre de la Page -->
+    <div class="pagetitle">
+        <h1>Modules</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url "index" %}">Accueil</a></li>
+                <li class="breadcrumb-item">Formations</li>
+                <li class="breadcrumb-item active">Modules</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- Fin du Titre de la Page -->
+
+    <section class="section dashboard">
+        <!-- Affichage des Messages -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <!-- Formulaire pour Créer un Module -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Créer un Nouveau Module</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            
+                            <!-- Champs du Formulaire -->
+                            {{ form.as_p }}
+
+                            <!-- Bouton de Soumission -->
+                            <div class="text-end mt-3">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-plus-circle"></i> Créer le Module
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin du Formulaire -->
+    </section>
+
+</main>
+{% endblock %}

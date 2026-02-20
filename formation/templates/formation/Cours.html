@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %} 
+
+{% block content %}
+<main id="main" class="main">
+
+    <!-- Titre de la Page -->
+    <div class="pagetitle">
+        <h1>Modules</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url "index" %}">Accueil</a></li>
+                <li class="breadcrumb-item">Formations</li>
+                <li class="breadcrumb-item active">Modules</li>
+                <li class="breadcrumb-item">Cours</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- Fin Titre de la Page -->
+
+    <!-- Messages d'Alerte -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <!-- Fin Messages d'Alerte -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary fw-bold">{{ module.titre }}</h5>
+                    
+                    <!-- Tableau des Cours -->
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col" style="width: 10%;">#</th>
+                                <th scope="col" style="width: 90%;">Titre du Cours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cour in cours %}
+                            <tr>
+                                <td class="text-center">{{ cour.ordre }}</td>
+                                <td>
+                                    <a href="{% url 'coursd' cour.pk %}" class="text-decoration-none text-dark fw-semibold">
+                                        <i class="bi bi-book"></i> {{ cour.titre }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="2" class="text-center text-muted">
+                                    Aucun cours trouvé pour ce module.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- Fin Tableau des Cours -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
