@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+{%  block content %}
+{% load static %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Confirmation</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url "index" %}">Home</a></li>
+          <li class="breadcrumb-item active">Confirmation</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+
+
+
+              </div>
+
+            </div>
+          </div><!-- End Recent Activity -->
+
+          <h2>Confirmation d'anomalie</h2>
+<section class="section">
+    <div class="row align-items-top">
+      <div class="col-lg-6">
+
+        <form method="post">
+
+        <!-- Card with header and footer -->
+        <div class="card">
+            {% csrf_token %}
+          <div class="card-header">Détection d'anomalie : {{ prediction.anomalie_detectee }}</div> 
+          <div class="card-body">
+            <h5 class="card-title"> {{ form.as_p }}</h5> 
+            <img class="card-img" src=" {{ prediction.image.url }}"></img>
+            
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" type="submit">Confirmer</button>
+          </div>
+        </div><!-- End Card with header and footer -->   
+</form>
+  </section>
+
+        
+  </main><!-- End #main -->
+
+  {% endblock %}

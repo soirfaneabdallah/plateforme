@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{%  block content %}
+{% load static %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Prédictions</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url "index" %}">Home</a></li>
+          <li class="breadcrumb-item active">Prédictions</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+   
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+
+         
+
+          <!-- Card with header and footer -->
+          <div class="card">
+            <div class="card-header">Classifications d'images</div> 
+            <div class="card-body">
+             <!-- <h5 class="card-title">Card with header and footer</h5> -->
+              <img class="card-img" src=" {% static "images/predict.jpeg" %}"></img>
+              
+            </div>
+           
+                <div class="card-body">
+                  <div class="d-flex justify-content-center" style="gap:20px">
+                 <a href="{% url 'predict'%}" > <button type="button" class="btn btn-primary " > <i class="bx bxs-camera-plus me-2"></i>Image en Locale</button></a>
+                 <a href="{% url 'camera_page'%}"> <button type="button" class="btn btn-primary "><i class ="bx bx-play-circle me-2"></i>Image en Directe</button></a>
+                 
+                </div>
+              </div>
+    
+            </div>
+          </div><!-- End Card with header and footer -->
+        </div>
+          
+    </section>
+
+          
+        
+  </main><!-- End #main -->
+
+  {% endblock %}

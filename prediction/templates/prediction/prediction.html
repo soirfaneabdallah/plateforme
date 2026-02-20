@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{%  block content %}
+{% load static %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dédiction d'anomalie</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url "index" %}">Home</a></li>
+          <li class="breadcrumb-item active">Dédiction d'anomalie</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title --> 
+  <section class="section">
+    <div class="row align-items-top">
+      <div class="col-lg-6">
+
+        <form method="post" enctype="multipart/form-data">
+
+        <!-- Card with header and footer -->
+        <div class="card">
+            {% csrf_token %}
+          <div class="card-header">Choisir une image pour la prédiction</div> 
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="{% static 'images/predict.jpeg'%}" class="d-block w-100" alt="...">
+              
+            </div>
+          </div>
+          <div class="card-body">
+          <div class="d-flex justify-content-center" style="gap:20px">
+              <input style="width: 280px;" class="form-control" type="file" name="image" id="image"></input>
+            <button class = "btn btn-primary" type="submit"><i class ="bx bx-play-circle me-2"></i>Prédiction</button>
+          </div>
+          </div>
+        </div><!-- End Card with header and footer -->   
+        
+</form>
+  </section>
+</main><!-- End #main -->
+  {% endblock %}

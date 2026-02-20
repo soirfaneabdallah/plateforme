@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<main id="main" class="main bg-light py-4">
+
+    <!-- Titre de la page -->
+    <div class="pagetitle mb-4">
+        <h1 class="text-primary">Classification</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url "index" %}" class="text-decoration-none">Accueil</a></li>
+                <li class="breadcrumb-item active">Classification</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Section principale -->
+    <section class="section dashboard">
+        <div class="row">
+
+            <!-- Colonne principale -->
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>Classe proposée : {{ prediction.classe }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Corriger la classe si nécessaire :</h5>
+                        <form method="post" class="mt-3">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                
+                                <select class="form-select" name="classe_corrigee">
+                                    <option value="Canette">Canette</option>
+                                    <option value="Organique">Organique</option>
+                                    <option value="Plastique">Plastique</option>
+                                    <option value="Textile">Textile</option>
+                                    <option value="Verre">Verre</option>
+                                   
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <img class="img-fluid rounded shadow-sm border" 
+                                     src="{{ prediction.image.url }}" 
+                                     alt="Image prédiction" style="max-width: 100%; height: auto;">
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-success" type="submit">Confirmer la classe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
